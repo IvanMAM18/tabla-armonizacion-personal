@@ -13,8 +13,8 @@ export default function Dashboard({ auth }) {
 
             <div className="bg-white">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <InfoExtraTabla></InfoExtraTabla>
-                    <TablaData status={'editable'}></TablaData>
+                    {/* <InfoExtraTabla></InfoExtraTabla>
+                    <TablaData status={'editable'}></TablaData> */}
                 </div>
             </div>
         </AuthenticatedLayout>

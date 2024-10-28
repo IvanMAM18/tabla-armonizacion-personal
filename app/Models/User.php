@@ -75,4 +75,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(TablaDataArmonizacion::class);
     }
+
+    public function dataArmonizacion(): HasMany
+    {
+        return $this->hasMany(DataArmonizacion::class);
+    }
 }

@@ -14,6 +14,11 @@ use App\Http\Controllers\TablaDataArmonizacionController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+
+use App\Http\Controllers\DataArmonizacionController;
+
+Route::resource('data-armonizacion', DataArmonizacionController::class);
 Route::get('/tabla-data-armonizacion', [TablaDataArmonizacionController::class, 'indexOne']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
