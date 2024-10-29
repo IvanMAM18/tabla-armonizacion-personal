@@ -11,8 +11,8 @@ class CreateTitulosTable extends Migration
         Schema::create('titulos', function (Blueprint $table) {
             $table->id('id_titulo'); // ID del título
             $table->string('nombre'); // Nombre del título
-            $table->integer('puntosOne'); // Puntos One
-            $table->integer('puntosTwo'); // Puntos Two
+            $table->decimal('puntosOne', 8, 2); // Puntos One
+            $table->decimal('puntosTwo', 8, 2); // Puntos Two
             $table->integer('apartado'); // Apartado
             $table->enum('tipo', ['titulo', 'subtitulo']); // Tipo
             $table->timestamps(); // Timestamps
