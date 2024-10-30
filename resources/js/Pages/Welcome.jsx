@@ -1,5 +1,6 @@
 import { Link, Head } from '@inertiajs/react';
 import DataArmonizacion from '@/Components/DataArmonizacion';
+import TablaTitulos from '@/Components/TablaTitulos';
 import TablaData from '@/Components/TablaData';
 import InfoExtraTabla from '@/Components/InfoExtraTabla';
 import __ from '@/Hooks/useTranslation'
@@ -29,7 +30,8 @@ export default function Welcome({ auth }) {
                     )}
                 </div>
                 <h1>Clasificacion</h1><br />
-                <DataArmonizacion></DataArmonizacion>
+                <TablaTitulos></TablaTitulos>
+                 {/* <DataArmonizacion></DataArmonizacion>  */}
             </div>
 
             <style>{`

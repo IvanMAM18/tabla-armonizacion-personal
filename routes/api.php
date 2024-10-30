@@ -17,8 +17,10 @@ use App\Http\Controllers\TablaDataArmonizacionController;
 
 
 use App\Http\Controllers\DataArmonizacionController;
+//use App\Http\Controllers\TituloController;
 
-Route::resource('data-armonizacion', DataArmonizacionController::class);
+// Route::resource('data-armonizacion', DataArmonizacionController::class);
+//Route::resource('titulos', TituloController::class);
 Route::get('/tabla-data-armonizacion', [TablaDataArmonizacionController::class, 'indexOne']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -9,7 +9,7 @@ class CreateTitulosTable extends Migration
     public function up()
     {
         Schema::create('titulos', function (Blueprint $table) {
-            $table->id('id_titulo'); // ID del título
+            $table->id('id'); // ID del título
             $table->string('nombre'); // Nombre del título
             $table->decimal('puntosOne', 8, 2); // Puntos One
             $table->decimal('puntosTwo', 8, 2); // Puntos Two

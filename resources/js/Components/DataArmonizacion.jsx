@@ -38,6 +38,7 @@ const DataModal = () => {
                 />
                 <button type="submit">Agregar</button>
             </form>
+            hola
             <ul>
                 {data.map(item => (
                     <li key={item.id}>

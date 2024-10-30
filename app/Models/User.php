@@ -80,4 +80,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(DataArmonizacion::class);
     }
+
+    public function titulo(): HasMany
+    {
+        return $this->hasMany(Titulo::class);
+    }
 }

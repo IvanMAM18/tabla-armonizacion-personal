@@ -4,6 +4,7 @@ use App\Http\Controllers\TablaDataArmonizacionController;
 use App\Http\Controllers\DataArmonizacionController;
 use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TituloController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -29,9 +30,13 @@ Route::get('/', function () {
     ]);
 });
 
-Route::resource('data-armonizacion', DataArmonizacionController::class)
+Route::resource('/data-armonizacion', DataArmonizacionController::class)
 ->only(['index', 'store', 'update', 'destroy'])
-->middleware('auth');;
+->middleware('auth');
+
+Route::resource('/titulos', TituloController::class)
+    ->only(['index', 'store', 'update', 'destroy'])
+    ->middleware('auth');
 
 Route::resource('/tabla-data-armonizacion', TablaDataArmonizacionController::class)
     ->only(['index', 'store', 'update', 'destroy'])

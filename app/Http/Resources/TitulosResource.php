@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DataArmonizacionResource extends JsonResource
+class TitulosResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,7 +16,10 @@ class DataArmonizacionResource extends JsonResource
     {
         return [
             'id' => $this->resource->id,
-            'clasificacion' => $this->resource->message,
+            'puntosOne' => $this->resource->puntosOne,
+            'puntosTwo' => $this->resource->puntosTwo,
+            'apartado' => $this->resource->apartado,
+            'tipo' => $this->resource->tipo,
             'createdAt' => $this->resource->created_at->diffForHumans(),
             'edited' => $this->resource->created_at != $this->resource->updated_at,
             'user' => UserResource::make($this->whenLoaded('user')),
