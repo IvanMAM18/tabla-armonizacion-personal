@@ -5,6 +5,7 @@ use App\Http\Controllers\DataArmonizacionController;
 use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TituloController;
+use App\Http\Controllers\LogsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,6 +36,10 @@ Route::resource('/data-armonizacion', DataArmonizacionController::class)
 ->middleware('auth');
 
 Route::resource('/titulos', TituloController::class)
+    ->only(['index', 'store', 'update', 'destroy'])
+    ->middleware('auth');
+
+Route::resource('/logs', LogsController::class)
     ->only(['index', 'store', 'update', 'destroy'])
     ->middleware('auth');
 

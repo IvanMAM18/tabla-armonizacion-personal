@@ -7,12 +7,31 @@ const TablaTitulos = () => {
     const [puntosTwo, setPuntosTwo] = useState(0);
     const [apartado, setApartado] = useState(0);
     const [tipo, setTipo] = useState('titulo');
-    const [data, setData] = useState([]);
     const [editingId, setEditingId] = useState(null);
+    const [data, setData] = useState([]);
+    const [logs, setLogs] = useState([]);
+    const [filteredLogs, setFilteredLogs] = useState([]);
+    const [isHoveredFormato, setIsHoveredFormato] = useState(false);
+    const [selectedLog, setSelectedLog] = useState({ id: null, tipo: '' }); // Estado para almacenar el id_titulo y tipo
+
+    
 
     const fetchData = async () => {
-        const response = await axios.get('/titulos');
-        setData(response.data);
+        try {
+            const response = await axios.get('/titulos');
+            setData(response.data);
+        } catch (error) {
+            console.error("Error fetching titulos:", error);
+        }
+    };
+
+    const fetchLogs = async () => {
+        try {
+            const response = await axios.get('/logs');
+            setLogs(response.data);
+        } catch (error) {
+            console.error("Error fetching logs:", error);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -48,9 +67,10 @@ const TablaTitulos = () => {
         setApartado(0);
         setTipo('titulo');
     };
+
     const [resultsPerPage, setResultsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
+    const totalPages = Math.ceil(data.length / resultsPerPage);
 
     const handleResultsPerPageChange = (e) => {
         setResultsPerPage(Number(e.target.value));
@@ -69,65 +89,123 @@ const TablaTitulos = () => {
 
     useEffect(() => {
         fetchData();
+        fetchLogs();
     }, []);
 
+    useEffect(() => {
+        // Filtrar logs según el id_titulo de los títulos
+        const newFilteredLogs = logs.filter(log => 
+            data.some(record => record.id === log.id_titulo)
+        );
+
+        setFilteredLogs(newFilteredLogs);
+    }, [data, logs]);
+
+
     return (
-        <div className="p-4">
-            <div className='relative w-11/12 mt-2 mx-auto overflow-x-auto'>
-                <div className="flex justify-between mb-2 text-white">
+        <div className="y-4">
+            <div className='relative mt-2 mx-auto overflow-x-auto'>
+                <div className="flex justify-between mb-2 text-white ">
                     <select
                         value={resultsPerPage}
                         onChange={handleResultsPerPageChange}
-                        className="border py-1 pr-8 rounded bg-emerald-950 font-semibold"
+                        className="py-1 pr-8 rounded border-transparent bg-emerald-950 font-normal cursor-pointer"
                     >
-                        <option value={10}>Mostrar 10</option>
-                        <option value={15}>Mostrar 15</option>
-                        <option value={20}>Mostrar 20</option>
-                        <option value={25}>Mostrar 25</option>
-                        <option value={50}>Mostrar 50</option>
+                        <option  value={10}> Mostrar 10 </option>
+                        <option  value={15}> Mostrar 15 </option>
+                        <option  value={20}> Mostrar 20 </option>
+                        <option  value={25}> Mostrar 25 </option>
+                        <option  value={50}> Mostrar 50 </option>
                     </select>
                 </div>
+                
                 <table className="table-auto w-full">
-                    <thead className=''>
-                        <tr className='text-center'>
-                            <th className='relative bg-emerald-700 text-white rounded-tr-lg'>
+                    <thead>
+                        <tr className='text-center '>
+                            <th className='relative bg-emerald-700 text-white font-normal rounded-tl'>
                                 CLASIFICACIÓN DE VARIABLES TÉCNICAS
                             </th>
-                            <th className='relative bg-emerald-700 text-white rounded-tl-lg'>
+                            <th className='relative px-2 bg-emerald-700 font-normal text-white'>
                                 PUNTOS
                             </th>
-                            <th className='relative  bg-emerald-700 text-white'>
+                            <th className='relative px-2 bg-emerald-700 font-normal text-white'>
                                 PUNTOS
                             </th>
-                            <th className='relative  bg-emerald-700 text-white'>
+                            <th className='relative px-2 bg-emerald-700 font-normal text-white'>
                                 ARCHIVOS
                             </th>
-                            <th className='relative  bg-emerald-700 text-white'>
+                            <th className='relative px-2 bg-emerald-700 font-normal text-white rounded-tr'>
                                 FORMATOS
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {currentData.map((record, index) => (
-                            <tr key={index}>
-                                <td className='border border-y-slate-600 pl-2'>{record.nombre}</td>
-                                <td className='border border-y-slate-600 text-center'>{record.puntosOne}</td>
-                                <td className='border border-y-slate-600 text-center'>{record.puntosTwo}</td>
-                                <td className='border border-y-slate-600 text-center'>{record.apartado}</td>
-                                <td className='border border-y-slate-600 text-center'>{record.tipo}</td>
-                            </tr>
-                        ))}
+                    <tbody className="rounded">
+                    {currentData.map((record, index) => (
+                <tr key={index} className={`${record.tipo === 'titulo' ? 'bg-orange-200' : ''}`}>
+                    <td className='border border-y-slate-600 border-l-slate-600 pl-2'>{record.nombre}</td>
+                    <td className='border border-y-slate-600 text-center'>{record.puntosOne}</td>
+                    <td className='border border-y-slate-600 text-center'>{record.puntosTwo}</td>
+                    
+                    <td className='border border-y-slate-600 text-center'>
+                        {/* Celdas para logs de tipo "archivo" */}
+                        {filteredLogs.filter(log => log.id_titulo === record.id && log.tipo_log === 'archivo').length > 0 ? (
+                            filteredLogs
+                                .filter(log => log.id_titulo === record.id && log.tipo_log === 'archivo')
+                                .map(log => (
+                                    <span key={log.id} 
+                                          onClick={() => setSelectedLog({ id: log.id_titulo, tipo: 'archivo' })} // Al hacer clic, se guarda el id_titulo y tipo
+                                          className="relative cursor-pointer">
+                                        <svg className="h-5 w-5 mx-auto text-emerald-900" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                                        </svg>
+                                    </span>
+                                ))
+                        ) : (
+                            <span>
+                                <svg className="h-5 w-5 mx-auto text-emerald-900" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2" />  
+                                    <line x1="9" y1="13" x2="15" y2="13" />                                        
+                                </svg>
+                            </span>
+                        )}
+                    </td>
+                    
+                    <td className='border border-y-slate-600 text-center'>
+                        {/* Celdas para logs de tipo "formato" */}
+                        {filteredLogs.filter(log => log.id_titulo === record.id && log.tipo_log === 'formato').length > 0 ? (
+                            filteredLogs
+                                .filter(log => log.id_titulo === record.id && log.tipo_log === 'formato')
+                                .map(log => (
+                                    <span key={log.id} 
+                                          onClick={() => setSelectedLog({ id: log.id_titulo, tipo: 'formato' })} // Al hacer clic, se guarda el id_titulo y tipo
+                                          className="relative cursor-pointer">
+                                        <svg className="h-5 w-5 mx-auto text-emerald-900" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                                        </svg>
+                                    </span>
+                                ))
+                        ) : (
+                            <span>
+                                <svg className="h-5 w-5 mx-auto text-emerald-900" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2" />  
+                                    <line x1="9" y1="13" x2="15" y2="13" />                                        
+                                </svg>
+                            </span>
+                        )}
+                    </td>
+                </tr>
+            ))}
                     </tbody>
                 </table>
                 <div className="flex justify-center mt-4">
                     <div className="flex space-x-2">
-                        {Array.from({ length: totalPages }, (_, index) => (
-                            <button
-                                key={index + 1}
-                                onClick={() => handlePageChange(index + 1)}
-                                className={`px-3 py-1 border rounded ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-white text-black'}`}
-                            >
-                                {index + 1}
+                    {Array.from({ length: totalPages }, (_, index) => (
+                        <button
+                            key={index + 1}
+                            onClick={() => handlePageChange(index + 1)}
+                            className={`px-3 py-1 border rounded ${currentPage === index + 1 ? 'bg-emerald-950 text-white' : 'bg-white text-black'}`}
+                        >
+                            {index + 1}
                             </button>
                         ))}
                     </div>
@@ -138,6 +216,11 @@ const TablaTitulos = () => {
                     </span>
                 </div>
             </div>
+            {selectedLog.id && (
+                    <span className="text-center text-lg text-blue-600">
+                        ID Titulo Seleccionado: {selectedLog.id} - Tipo: {selectedLog.tipo}
+                    </span>
+            )}
             <form onSubmit={handleSubmit} className="mb-4">
                 <input
                     type="text"
@@ -202,6 +285,24 @@ const TablaTitulos = () => {
                     </li>
                 ))}
             </ul>
+            <div>
+            <h1>Titulos</h1>
+            <ul>
+                {data.map((titulo) => (
+                    <li key={titulo.id}>
+                        {titulo.nombre} - Puntos One: {titulo.puntosOne}, Puntos Two: {titulo.puntosTwo}
+                        {/* Aquí puedes mostrar los logs relacionados */}
+                        <ul>
+                            {filteredLogs
+                                .filter(log => log.id_titulo === titulo.id)
+                                .map(log => (
+                                    <li key={log.id}>{log.nombre_log} ({log.tipo_log})</li>
+                                ))}
+                        </ul>
+                    </li>
+                ))}
+            </ul>
+        </div>
         </div>
     );
 };

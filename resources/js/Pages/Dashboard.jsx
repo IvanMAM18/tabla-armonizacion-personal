@@ -1,6 +1,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InfoExtraTabla from '@/Components/InfoExtraTabla';
-import TablaData from '@/Components/TablaData';
+import TablaTitulos from '@/Components/TablaTitulos';
+import OptionTitulo from '@/Components/OptionTitulo';
+
 import { Head } from '@inertiajs/react';
 
 export default function Dashboard({ auth }) {
@@ -15,6 +17,8 @@ export default function Dashboard({ auth }) {
             <div className="relative w-full h-screen pt-4 bg-dots-darker bg-center bg-white dark:bg-white selection:bg-red-500 selection:text-white">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <InfoExtraTabla></InfoExtraTabla>
+                    <TablaTitulos></TablaTitulos>
+                    <OptionTitulo></OptionTitulo>
                     
                    {/*  <TablaData status={'editable'}></TablaData> */}
                 </div>

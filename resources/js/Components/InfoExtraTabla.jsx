@@ -21,7 +21,7 @@ export default function InfoExtraTabla() {
 
     return (
             <>
-                <div className='relative w-[90vw] mt-4 mx-auto'>
+                <div className='relative mt-4 mx-auto'>
                     <div className='bg-emerald-700 relative rounded-lg'>
                         <div className='py-5 rounded-lg flex justify-between items-center relative z-10'>
                             <img src="../images/UECASELogo.png" alt="" className='w-[5.3vw] ml-2' />
