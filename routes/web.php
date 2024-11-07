@@ -51,6 +51,10 @@ Route::resource('/tabla-data-armonizacion', TablaDataArmonizacionController::cla
      return Inertia::render('Dashboard');
  })->middleware(['auth', 'verified'])->name('dashboard');
 
+ Route::get('/carpeta/{tipo}/{id}', function ($tipo, $id) {
+    return Inertia::render('Carpeta', ['tipo' => $tipo, 'id' => $id]);
+})->middleware(['auth', 'verified'])->name('carpeta');
+
  Route::patch('/dashboard', [TablaDataArmonizacionController::class, 'update'])->name('dashboard.update');
  Route::delete('/dashboard', [TablaDataArmonizacionController::class, 'destroy'])->name('dashboard.destroy');
 
