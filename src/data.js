@@ -1,5 +1,5 @@
 const data = [
-    { clasificacion: "VARIABLES dededeDE RIESGO </br> Este criterio, pretender analizar el RIESGO del ente, entre más cercano es la ponderacion a 50 puntos, menor es el riesgo del ente con respecto a las variables analizadas.", puntosOne: "", puntosTwo: "", archivo:"", formato:""},
+    { clasificacion: "VARIABLES DE RIESGO </br> Este criterio, pretender analizar el RIESGO del ente, entre más cercano es la ponderacion a 50 puntos, menor es el riesgo del ente con respecto a las variables analizadas.", puntosOne: "", puntosTwo: "", archivo:"", formato:""},
     { clasificacion: "1 Cuenta Pública conforme a LFyRC", puntosOne: "6", puntosTwo: "0", archivo:"", formato:""},
     { clasificacion: "1. La documentación presentada cumple con los requisitos de transparencia y veracidad exigidos por la LFyRC y LGCG.", puntosOne: "1", puntosTwo: "0", archivo:"", formato:""},
     { clasificacion: "2. La cuenta pública incluye todos los elementos requeridos por la ley, como estados financieros, presupuestales y programáticos como lo indica la normativa vigente.", puntosOne: "1", puntosTwo: "0", archivo:"", formato:""},
