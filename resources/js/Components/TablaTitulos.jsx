@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import ModalCarpetas from './ModalCarpetas';
 import axios from 'axios';
 
-const TablaTitulos = () => {
+export default function TablaTitulos () {
+
     const [nombre, setNombre] = useState('');
     const [puntosOne, setPuntosOne] = useState(0);
     const [puntosTwo, setPuntosTwo] = useState(0);
@@ -15,10 +16,12 @@ const TablaTitulos = () => {
     const [isHoveredFormato, setIsHoveredFormato] = useState(false);
     const [selectedLog, setSelectedLog] = useState({ id: null, tipo: '' }); // Estado para almacenar el id_titulo y tipo
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalTitle, setModalTitle] = useState('');
+    const [modalId, setModalId] = useState('');
+    const [modalTipo, setModalTipo] = useState('');
 
     const handleOpenModal = (id, type) => {
-        setModalTitle(`Archivo ID: ${id} - Tipo: ${type}`);
+        setModalId(id);
+        setModalTipo(type);
         setIsModalOpen(true);
     };
 
@@ -151,46 +154,46 @@ const TablaTitulos = () => {
                         </tr>
                     </thead>
                     <tbody className="rounded">
-                {currentData.map((record, index) => (
-                    <tr key={index} className={`${record.tipo === 'titulo' ? 'bg-orange-200' : ''}`}>
-                        <td className='border border-y-slate-600 border-l-slate-600 pl-2'>{record.nombre}</td>
-                        <td className='border border-y-slate-600 text-center'>{record.puntosOne}</td>
-                        <td className='border border-y-slate-600 text-center'>{record.puntosTwo}</td>
-                        
-                        <td className='border border-y-slate-600 text-center'>
-                            <svg 
-                                onClick={() => handleOpenModal(record.id, 'archivo')} 
-                                className="h-5 w-5 mx-auto text-emerald-900 cursor-pointer" 
-                                width="24" height="24" 
-                                viewBox="0 0 24 24" 
-                                strokeWidth="2" 
-                                stroke="currentColor" 
-                                fill="none" 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round">
-                                <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
-                            </svg>
-                        </td>
-                        
-                        <td className='border border-y-slate-600 text-center'>
-                            <svg 
-                                onClick={() => handleOpenModal(record.id, 'formato')} 
-                                className="h-5 w-5 mx-auto text-emerald-900 cursor-pointer" 
-                                width="24" height="24" 
-                                viewBox="0 0 24 24" 
-                                strokeWidth="2" 
-                                stroke="currentColor" 
-                                fill="none" 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round">
-                                <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
-                            </svg>
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
-            <ModalCarpetas isOpen={isModalOpen} onClose={handleCloseModal} title={modalTitle} />
+                        {currentData.map((record, index) => (
+                            <tr key={index} className={`${record.tipo === 'titulo' ? 'bg-orange-200' : ''}`}>
+                                <td className='border border-y-slate-600 border-l-slate-600 pl-2'>{record.nombre}</td>
+                                <td className='border border-y-slate-600 text-center'>{record.puntosOne}</td>
+                                <td className='border border-y-slate-600 text-center'>{record.puntosTwo}</td>
+                                
+                                <td className='border border-y-slate-600 text-center'>
+                                    <svg 
+                                        onClick={() => handleOpenModal(record.id, 'ARCHIVOS')} 
+                                        className="h-5 w-5 mx-auto text-emerald-900 cursor-pointer" 
+                                        width="24" height="24" 
+                                        viewBox="0 0 24 24" 
+                                        strokeWidth="2" 
+                                        stroke="currentColor" 
+                                        fill="none" 
+                                        strokeLinecap="round" 
+                                        strokeLinejoin="round">
+                                        <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                                    </svg>
+                                </td>
+                                
+                                <td className='border border-y-slate-600 text-center'>
+                                    <svg 
+                                        onClick={() => handleOpenModal(record.id, 'FORMATOS')} 
+                                        className="h-5 w-5 mx-auto text-emerald-900 cursor-pointer" 
+                                        width="24" height="24" 
+                                        viewBox="0 0 24 24" 
+                                        strokeWidth="2" 
+                                        stroke="currentColor" 
+                                        fill="none" 
+                                        strokeLinecap="round" 
+                                        strokeLinejoin="round">
+                                        <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                                    </svg>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
                 </table>
+                <ModalCarpetas isOpen={isModalOpen} onClose={handleCloseModal} id={modalId} tipo={modalTipo} />
                 <div className="flex justify-center mt-4">
                     <div className="flex space-x-2">
                     {Array.from({ length: totalPages }, (_, index) => (
@@ -300,5 +303,3 @@ const TablaTitulos = () => {
         </div>
     );
 };
-
-export default TablaTitulos;

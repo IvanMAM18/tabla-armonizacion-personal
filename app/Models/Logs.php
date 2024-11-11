@@ -15,5 +15,6 @@ class Logs extends Model
         'id_tiutlo',
         'tipo_log',
         'nombre_log',
+        'fecha_establecida'
     ];
 }

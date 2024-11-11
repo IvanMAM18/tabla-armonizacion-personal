@@ -13,6 +13,7 @@ class CreateLogsTable extends Migration
             $table->integer('id_titulo'); // ID del título relacionado
             $table->enum('tipo_log', ['archivo', 'formato']); // Tipo de log
             $table->string('nombre_log'); // Nombre del log
+            $table->date('fecha_establecida')->nullable(); // Fecha establecida (solo fecha)
             $table->timestamps(); // Timestamp
         });
     }

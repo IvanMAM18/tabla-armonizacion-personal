@@ -18,6 +18,7 @@ class LogsController extends Controller
             'id_titulo' => 'required|numeric',
             'tipo_log' => 'required|in:archivo,formato',
             'nombre_log' => 'required|string|max:25',
+            'fecha_establecida' => 'required|date', // Validación para la fecha
         ]);
 
         $logs = Logs::create($request->all());
@@ -30,6 +31,7 @@ class LogsController extends Controller
             'id_titulo' => 'required|numeric',
             'tipo_log' => 'required|in:archivo,formato',
             'nombre_log' => 'required|string|max:25',
+            'fecha_establecida' => 'required|date', // Validación para la fecha
         ]);
 
         $logs = Logs::findOrFail($id);

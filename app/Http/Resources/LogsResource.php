@@ -19,6 +19,7 @@ class TitulosResource extends JsonResource
             'id_titulo' => $this->resource->id_titulo,
             'tipo_log' => $this->resource->tipo_log,
             'nombre_log' => $this->resource->nombre_log,
+            'fecha_establecida' => $this->resource->fecha_establecida,
             'createdAt' => $this->resource->created_at->diffForHumans(),
             'edited' => $this->resource->created_at != $this->resource->updated_at,
             'user' => UserResource::make($this->whenLoaded('user')),
