@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ModalCarpetas from './ModalCarpetas';
 import axios from 'axios';
 
 const TablaTitulos = () => {
@@ -13,7 +14,17 @@ const TablaTitulos = () => {
     const [filteredLogs, setFilteredLogs] = useState([]);
     const [isHoveredFormato, setIsHoveredFormato] = useState(false);
     const [selectedLog, setSelectedLog] = useState({ id: null, tipo: '' }); // Estado para almacenar el id_titulo y tipo
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalTitle, setModalTitle] = useState('');
 
+    const handleOpenModal = (id, type) => {
+        setModalTitle(`Archivo ID: ${id} - Tipo: ${type}`);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
     
 
     const fetchData = async () => {
@@ -140,62 +151,45 @@ const TablaTitulos = () => {
                         </tr>
                     </thead>
                     <tbody className="rounded">
-                    {currentData.map((record, index) => (
-                <tr key={index} className={`${record.tipo === 'titulo' ? 'bg-orange-200' : ''}`}>
-                    <td className='border border-y-slate-600 border-l-slate-600 pl-2'>{record.nombre}</td>
-                    <td className='border border-y-slate-600 text-center'>{record.puntosOne}</td>
-                    <td className='border border-y-slate-600 text-center'>{record.puntosTwo}</td>
-                    
-                    <td className='border border-y-slate-600 text-center'>
-                        {/* Celdas para logs de tipo "archivo" */}
-                        {filteredLogs.filter(log => log.id_titulo === record.id && log.tipo_log === 'archivo').length > 0 ? (
-                            filteredLogs
-                                .filter(log => log.id_titulo === record.id && log.tipo_log === 'archivo')
-                                .map(log => (
-                                    <span key={log.id} 
-                                          onClick={() => setSelectedLog({ id: log.id_titulo, tipo: 'archivo' })} // Al hacer clic, se guarda el id_titulo y tipo
-                                          className="relative cursor-pointer">
-                                        <svg className="h-5 w-5 mx-auto text-emerald-900" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-                                        </svg>
-                                    </span>
-                                ))
-                        ) : (
-                            <span>
-                                <svg className="h-5 w-5 mx-auto text-emerald-900" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2" />  
-                                    <line x1="9" y1="13" x2="15" y2="13" />                                        
-                                </svg>
-                            </span>
-                        )}
-                    </td>
-                    
-                    <td className='border border-y-slate-600 text-center'>
-                        {/* Celdas para logs de tipo "formato" */}
-                        {filteredLogs.filter(log => log.id_titulo === record.id && log.tipo_log === 'formato').length > 0 ? (
-                            filteredLogs
-                                .filter(log => log.id_titulo === record.id && log.tipo_log === 'formato')
-                                .map(log => (
-                                    <span key={log.id} 
-                                          onClick={() => setSelectedLog({ id: log.id_titulo, tipo: 'formato' })} // Al hacer clic, se guarda el id_titulo y tipo
-                                          className="relative cursor-pointer">
-                                        <svg className="h-5 w-5 mx-auto text-emerald-900" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-                                        </svg>
-                                    </span>
-                                ))
-                        ) : (
-                            <span>
-                                <svg className="h-5 w-5 mx-auto text-emerald-900" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2" />  
-                                    <line x1="9" y1="13" x2="15" y2="13" />                                        
-                                </svg>
-                            </span>
-                        )}
-                    </td>
-                </tr>
-            ))}
-                    </tbody>
+                {currentData.map((record, index) => (
+                    <tr key={index} className={`${record.tipo === 'titulo' ? 'bg-orange-200' : ''}`}>
+                        <td className='border border-y-slate-600 border-l-slate-600 pl-2'>{record.nombre}</td>
+                        <td className='border border-y-slate-600 text-center'>{record.puntosOne}</td>
+                        <td className='border border-y-slate-600 text-center'>{record.puntosTwo}</td>
+                        
+                        <td className='border border-y-slate-600 text-center'>
+                            <svg 
+                                onClick={() => handleOpenModal(record.id, 'archivo')} 
+                                className="h-5 w-5 mx-auto text-emerald-900 cursor-pointer" 
+                                width="24" height="24" 
+                                viewBox="0 0 24 24" 
+                                strokeWidth="2" 
+                                stroke="currentColor" 
+                                fill="none" 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round">
+                                <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                            </svg>
+                        </td>
+                        
+                        <td className='border border-y-slate-600 text-center'>
+                            <svg 
+                                onClick={() => handleOpenModal(record.id, 'formato')} 
+                                className="h-5 w-5 mx-auto text-emerald-900 cursor-pointer" 
+                                width="24" height="24" 
+                                viewBox="0 0 24 24" 
+                                strokeWidth="2" 
+                                stroke="currentColor" 
+                                fill="none" 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round">
+                                <path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
+                            </svg>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+            <ModalCarpetas isOpen={isModalOpen} onClose={handleCloseModal} title={modalTitle} />
                 </table>
                 <div className="flex justify-center mt-4">
                     <div className="flex space-x-2">

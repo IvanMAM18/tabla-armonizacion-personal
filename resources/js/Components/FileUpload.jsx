@@ -16,7 +16,7 @@ const FileUpload = () => {
         formData.append('file', file);
         console.log(formData);
         try {
-            const response = await axios.post('http://localhost/tabla-armonizacion-contable/public/archivos', formData);
+            const response = await axios.post('http://localhost/tabla-armonizacion-personal/public/archivos', formData);
             setFileName(response.data.fileName);
             alert('Archivo subido exitosamente');
         } catch (error) {

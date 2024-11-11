@@ -22,8 +22,8 @@ export default function InfoExtraTabla() {
     return (
             <>
                 <div className='relative mt-4 mx-auto'>
-                    <div className='bg-emerald-700 relative rounded-lg'>
-                        <div className='py-5 rounded-lg flex justify-between items-center relative z-10'>
+                    <div className=' bg-emerald-700 relative rounded-lg'>
+                        <div className='relative py-5 rounded-lg flex justify-between items-center relative z-10'>
                             <img src="../images/UECASELogo.png" alt="" className='w-[5.3vw] ml-2' />
                             <div className='text-center text-white text-sm  px-[5vw]'>
                                 <span className='font-bold'>PRESUPUESTO DE PROYECTO PONDERACIÓN PARA LA APROBACIÓN DE CUENTAS PÚBLICAS</span> <br />
@@ -34,7 +34,7 @@ export default function InfoExtraTabla() {
                         </div>
                     </div>
                     <div className='relative mt-2 bg-emerald-950 rounded-lg'>
-                        <div className='relative z-10 py-4'>
+                        <div className='z-10 py-4'>
                             <div className='text-center text-white w-full text-3xl font-bold underline'>
                                 CLITERIOS MAYORES
                             </div>
