@@ -4,17 +4,9 @@ import axios from 'axios';
 
 export default function TablaTitulos () {
 
-    const [nombre, setNombre] = useState('');
-    const [puntosOne, setPuntosOne] = useState(0);
-    const [puntosTwo, setPuntosTwo] = useState(0);
-    const [apartado, setApartado] = useState(0);
-    const [tipo, setTipo] = useState('titulo');
-    const [editingId, setEditingId] = useState(null);
     const [data, setData] = useState([]);
     const [logs, setLogs] = useState([]);
     const [filteredLogs, setFilteredLogs] = useState([]);
-    const [isHoveredFormato, setIsHoveredFormato] = useState(false);
-    const [selectedLog, setSelectedLog] = useState({ id: null, tipo: '' }); // Estado para almacenar el id_titulo y tipo
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalId, setModalId] = useState('');
     const [modalTipo, setModalTipo] = useState('');
@@ -48,39 +40,6 @@ export default function TablaTitulos () {
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (editingId) {
-            await axios.put(`/titulos/${editingId}`, { nombre, puntosOne, puntosTwo, apartado, tipo });
-            setEditingId(null);
-        } else {
-            await axios.post('/titulos', { nombre, puntosOne, puntosTwo, apartado, tipo });
-        }
-        resetForm();
-        fetchData();
-    };
-
-    const handleEdit = (item) => {
-        setEditingId(item.id);
-        setNombre(item.nombre);
-        setPuntosOne(item.puntosOne);
-        setPuntosTwo(item.puntosTwo);
-        setApartado(item.apartado);
-        setTipo(item.tipo);
-    };
-
-    const handleDelete = async (id) => {
-        await axios.delete(`/titulos/${id}`);
-        fetchData();
-    };
-
-    const resetForm = () => {
-        setNombre('');
-        setPuntosOne(0);
-        setPuntosTwo(0);
-        setApartado(0);
-        setTipo('titulo');
-    };
 
     const [resultsPerPage, setResultsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
@@ -207,99 +166,12 @@ export default function TablaTitulos () {
                         ))}
                     </div>
                 </div>
-                <div className="mt-4 text-center">
+                <div className="my-4 text-center">
                     <span>
                         Mostrando {currentData.length} de {data.length} resultados en la página {currentPage} de {totalPages}.
                     </span>
                 </div>
             </div>
-            {selectedLog.id && (
-                    <span className="text-center text-lg text-blue-600">
-                        ID Titulo Seleccionado: {selectedLog.id} - Tipo: {selectedLog.tipo}
-                    </span>
-            )}
-            <form onSubmit={handleSubmit} className="mb-4">
-                <input
-                    type="text"
-                    value={nombre}
-                    onChange={(e) => setNombre(e.target.value)}
-                    placeholder="Nombre del Título"
-                    required
-                    className="border p-2 rounded mr-2"
-                />
-                <input
-                    type="number"
-                    step="0.01"
-                    value={puntosOne}
-                    onChange={(e) => setPuntosOne(parseFloat(e.target.value) || 0)}
-                    placeholder="Puntos One"
-                    required
-                    className="border p-2 rounded mr-2"
-                />
-                <input
-                    type="number"
-                    step="0.01"
-                    value={puntosTwo}
-                    onChange={(e) => setPuntosTwo(parseFloat(e.target.value) || 0)}
-                    placeholder="Puntos Two"
-                    required
-                    className="border p-2 rounded mr-2"
-                />
-                <input
-                    type="number"
-                    value={apartado}
-                    onChange={(e) => setApartado(parseInt(e.target.value, 10) || 0)}
-                    placeholder="Apartado"
-                    required
-                    className="border p-2 rounded mr-2"
-                />
-                <select
-                    value={tipo}
-                    onChange={(e) => setTipo(e.target.value)}
-                    className="border p-2 rounded mr-2"
-                >
-                    <option value="titulo">Título</option>
-                    <option value="subtitulo">Subtítulo</option>
-                </select>
-                <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">
-                    {editingId ? 'Actualizar' : 'Agregar'}
-                </button>
-            </form>
-            <ul>
-                {data.map(item => (
-                    <li key={item.id} className="flex items-center justify-between mb-2">
-                        <div>
-                            {item.nombre} - {item.puntosOne} - {item.puntosTwo} - {item.apartado} - {item.tipo}
-                        </div>
-                        <div>
-                            <button onClick={() => handleEdit(item)} className="bg-yellow-500 text-white py-1 px-2 rounded mr-2">
-                                Editar
-                            </button>
-                            <button onClick={() => handleDelete(item.id)} className="bg-red-500 text-white py-1 px-2 rounded">
-                                Eliminar
-                            </button>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-            <div>
-            <h1>Titulos</h1>
-            <ul>
-                {data.map((titulo) => (
-                    <li key={titulo.id}>
-                        {titulo.nombre} - Puntos One: {titulo.puntosOne}, Puntos Two: {titulo.puntosTwo}
-                        {/* Aquí puedes mostrar los logs relacionados */}
-                        <ul>
-                            {filteredLogs
-                                .filter(log => log.id_titulo === titulo.id)
-                                .map(log => (
-                                    <li key={log.id}>{log.nombre_log} ({log.tipo_log})</li>
-                                ))}
-                        </ul>
-                    </li>
-                ))}
-            </ul>
-        </div>
         </div>
     );
 };

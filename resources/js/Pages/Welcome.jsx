@@ -1,16 +1,33 @@
 import { Link, Head } from '@inertiajs/react';
+import React, { useState,useRef,useEffect } from 'react';
 import DataArmonizacion from '@/Components/DataArmonizacion';
-import TablaTitulos from '@/Layouts/TablaTitulos';
+import TablaTitulos from '@/Components/TablaTitulos';
 import TablaData from '@/Components/TablaData';
 import InfoExtraTabla from '@/Components/InfoExtraTabla';
 import __ from '@/Hooks/useTranslation'
 
 export default function Welcome({ auth }) {
+    const [titulos, setTitulos] = useState([]);
+
+    const fetchTitulos = async () => {
+        try {
+            const response = await axios.get('/titulosPublicos');
+            setTitulos(response.data);
+        } catch (error) {
+            console.error("Error fetching titulos:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchTitulos();
+    }, []);
+
     return (
         <>
             <Head title="Tabla" />
             <div className="relative w-full h-screen pt-4 bg-dots-darker bg-center bg-white dark:bg-white selection:bg-red-500 selection:text-white">
                 <div className="sm:top-0 sm:right-0 pr-4 text-end">
+                    
                     {auth.user ? (
                         <Link
                             href={route('dashboard')}
@@ -29,9 +46,14 @@ export default function Welcome({ auth }) {
                         </>
                     )}
                 </div>
-                <h1>Clasificacion</h1><br />
-                <TablaTitulos></TablaTitulos>
-                 {/* <DataArmonizacion></DataArmonizacion>  */}
+                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        <InfoExtraTabla></InfoExtraTabla>
+                        <TablaTitulos></TablaTitulos>
+                    </div>
+                {/* <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <InfoExtraTabla></InfoExtraTabla>
+                    <TablaTitulos></TablaTitulos>
+                </div> */}
             </div>
 
             <style>{`

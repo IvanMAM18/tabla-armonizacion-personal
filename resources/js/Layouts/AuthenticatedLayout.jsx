@@ -28,9 +28,6 @@ export default function Authenticated({ user, header, children }) {
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Inicio
                                 </NavLink>
-                                <NavLink href={route('tabla-data-armonizacion.index')} active={route().current('tabla-data-armonizacion.index')}>
-                                    Tabla Editable
-                                </NavLink>
                             </div>
                         </div>
 
@@ -62,7 +59,7 @@ export default function Authenticated({ user, header, children }) {
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>{__('Profile')}</Dropdown.Link>
+                                        {/* <Dropdown.Link href={route('profile.edit')}>{__('Profile')}</Dropdown.Link> */}
                                         <Dropdown.Link href={route('logout')} method="post" as="button">
                                             {__('Log Out')}
                                         </Dropdown.Link>
@@ -101,9 +98,6 @@ export default function Authenticated({ user, header, children }) {
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Inicio
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Tabla Editable
                         </ResponsiveNavLink>
                     </div>
 

@@ -12,7 +12,7 @@ class Logs extends Model
     protected $table = 'logs';
 
     protected $fillable = [
-        'id_tiutlo',
+        'id_titulo',
         'tipo_log',
         'nombre_log',
         'fecha_establecida'

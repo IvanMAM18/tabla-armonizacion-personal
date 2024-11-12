@@ -17,7 +17,7 @@ class LogsController extends Controller
         $request->validate([
             'id_titulo' => 'required|numeric',
             'tipo_log' => 'required|in:archivo,formato',
-            'nombre_log' => 'required|string|max:25',
+            'nombre_log' => 'required|string|max:255',
             'fecha_establecida' => 'required|date', // Validación para la fecha
         ]);
 

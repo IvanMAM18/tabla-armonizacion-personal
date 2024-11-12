@@ -24,20 +24,20 @@ export default function ModalCarpetas ({ isOpen, onClose, id , tipo}) {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg w-11/12 ">
-                <div className='bg-emerald-950 w-full h-10 text-white text-center p-2 rounded-t'>
-                    CARPETA DE {tipo}
+            <div className="bg-white rounded-lg shadow-lg w-11/12 pb-10">
+                <div className='bg-emerald-950 w-full h-8 text-white text-center rounded-t flex justify-between p-2 items-center'>
+                    <div className="flex-grow text-center">CARPETA DE {tipo}</div>
+                    <div className='mt-2'>
+                        <button onClick={onClose} className="bg-orange-300 text-white rounded hover:bg-red-400 ">
+                            <svg className="h-5 w-5 " width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z"/>  
+                                <line x1="18" y1="6" x2="6" y2="18" />  
+                                <line x1="6" y1="6" x2="18" y2="18" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <Carpeta id={id} tipo={tipo}></Carpeta>
-                <div className='text-center pb-4'>
-                    <button onClick={onClose} className="mt-4 bg-emerald-950 text-white px-4 py-2 rounded">
-                        Guardar
-                    </button>
-                    <button onClick={onClose} className="mt-4 ml-2 bg-orange-300 text-white px-4 py-2 rounded">
-                        Cerrar
-                    </button>
-                </div>
-                
             </div>
         </div>
     );
