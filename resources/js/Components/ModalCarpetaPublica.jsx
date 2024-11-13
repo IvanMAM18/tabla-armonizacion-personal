@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Carpeta from './Carpeta';
+import CarpetaPublica from './CarpetaPublica';
 import axios from 'axios';
 
-export default function ModalCarpetas ({ isOpen, onClose, id , tipo}) {
+export default function ModalCarpetaPublica ({ isOpen, onClose, id , tipo, nombre}) {
     const numericId = Number(id);
-    
+
     if (!isOpen) return null;
 
     return (
@@ -22,7 +22,7 @@ export default function ModalCarpetas ({ isOpen, onClose, id , tipo}) {
                         </button>
                     </div>
                 </div>
-                <Carpeta id={id} tipo={tipo}></Carpeta>
+                <CarpetaPublica id={id} tipo={tipo} nombre={nombre}></CarpetaPublica>
             </div>
         </div>
     );

@@ -42,6 +42,9 @@ Route::resource('/titulos', TituloController::class)
 Route::resource('/titulosPublicos', TituloController::class)
     ->only(['index']);
 
+Route::resource('/logsPublicos', LogsController::class)
+    ->only(['index']);
+
 Route::resource('/logs', LogsController::class)
     ->only(['index', 'store', 'update', 'destroy'])
     ->middleware('auth');

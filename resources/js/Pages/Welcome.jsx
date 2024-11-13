@@ -2,25 +2,12 @@ import { Link, Head } from '@inertiajs/react';
 import React, { useState,useRef,useEffect } from 'react';
 import DataArmonizacion from '@/Components/DataArmonizacion';
 import TablaTitulos from '@/Components/TablaTitulos';
+import TablaTitulosPublica from '@/Components/TablaTitulosPublica';
 import TablaData from '@/Components/TablaData';
 import InfoExtraTabla from '@/Components/InfoExtraTabla';
 import __ from '@/Hooks/useTranslation'
 
 export default function Welcome({ auth }) {
-    const [titulos, setTitulos] = useState([]);
-
-    const fetchTitulos = async () => {
-        try {
-            const response = await axios.get('/titulosPublicos');
-            setTitulos(response.data);
-        } catch (error) {
-            console.error("Error fetching titulos:", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchTitulos();
-    }, []);
 
     return (
         <>
@@ -29,12 +16,14 @@ export default function Welcome({ auth }) {
                 <div className="sm:top-0 sm:right-0 pr-4 text-end">
                     
                     {auth.user ? (
-                        <Link
-                            href={route('dashboard')}
-                            className="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-black focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                        >
-                            {__('Home')}
-                        </Link>
+                        <>
+                            <Link
+                                href={route('dashboard')}
+                                className="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-black focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                            >
+                                {__('Home')}
+                            </Link>
+                        </>
                     ) : (
                         <>
                             <Link
@@ -46,14 +35,10 @@ export default function Welcome({ auth }) {
                         </>
                     )}
                 </div>
-                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <InfoExtraTabla></InfoExtraTabla>
-                        <TablaTitulos></TablaTitulos>
-                    </div>
-                {/* <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <InfoExtraTabla></InfoExtraTabla>
-                    <TablaTitulos></TablaTitulos>
-                </div> */}
+                    <TablaTitulosPublica></TablaTitulosPublica>
+                </div>
             </div>
 
             <style>{`

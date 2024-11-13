@@ -2,6 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InfoExtraTabla from '@/Components/InfoExtraTabla';
 import OptionTitulo from '@/Components/OptionTitulo';
 import TablaTitulos from '@/Components/TablaTitulos';
+import TablaData from '@/Components/TablaData';
 
 
 
@@ -18,6 +19,7 @@ export default function Dashboard({ auth }) {
 
             <div className="relative w-full h-screen pt-4 bg-dots-darker bg-center bg-white dark:bg-white selection:bg-red-500 selection:text-white">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <TablaData></TablaData>
                     <InfoExtraTabla></InfoExtraTabla>
                     {/* <OptionTitulo></OptionTitulo> */}
                     <TablaTitulos></TablaTitulos>
