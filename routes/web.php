@@ -20,10 +20,6 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
- Route::resource('/chirps', ChirpController::class)
-         ->only('index','store','update','destroy')
-        ->middleware('auth');
-
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -31,11 +27,11 @@ Route::get('/', function () {
     ]);
 });
 
-Route::resource('/data-armonizacion', DataArmonizacionController::class)
-->only(['index', 'store', 'update', 'destroy'])
-->middleware('auth');
-
 Route::resource('/titulos', TituloController::class)
+    ->only(['index', 'store', 'update', 'destroy'])
+    ->middleware('auth');
+
+Route::resource('/logs', LogsController::class)
     ->only(['index', 'store', 'update', 'destroy'])
     ->middleware('auth');
 
@@ -45,37 +41,14 @@ Route::resource('/titulosPublicos', TituloController::class)
 Route::resource('/logsPublicos', LogsController::class)
     ->only(['index']);
 
-Route::resource('/logs', LogsController::class)
-    ->only(['index', 'store', 'update', 'destroy'])
-    ->middleware('auth');
-
-Route::resource('/tabla-data-armonizacion', TablaDataArmonizacionController::class)
-    ->only(['index', 'store', 'update', 'destroy'])
-    ->middleware('auth');
-
  Route::get('/dashboard', function () {
-     return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard');
  })->middleware(['auth', 'verified'])->name('dashboard');
-
- Route::get('/carpeta/{tipo}/{id}', function ($tipo, $id) {
-    return Inertia::render('Carpeta', ['tipo' => $tipo, 'id' => $id]);
-})->middleware(['auth', 'verified'])->name('carpeta');
-
- Route::patch('/dashboard', [TablaDataArmonizacionController::class, 'update'])->name('dashboard.update');
- Route::delete('/dashboard', [TablaDataArmonizacionController::class, 'destroy'])->name('dashboard.destroy');
-
 
 Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    // Route::resource('/tabla-publica', TablaDataArmonizacionController::class)
-    //     ->only('index','store','update','destroy');
-
-    Route::resource('/chirps', ChirpController::class)
-        ->only('index','store','update','destroy');
-    
 });
 
 require __DIR__.'/auth.php';

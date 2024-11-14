@@ -4,7 +4,7 @@ import { Link } from '@inertiajs/react';
 export default function Guest({ children }) {
     return (
         <>
-            <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-dots-darker bg-center bg-white dark:bg-emerald-100 selection:bg-red-500 opacity-90 selection:text-white">
+            <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-dots-darker bg-center bg-white dark:bg-emerald-50 selection:bg-red-500  selection:text-white">
                 <div>
                     <Link href="/">
                         <img src="../images/UECASELogo.png" alt="" className="w-20 h-20 fill-current text-gray-500"/>

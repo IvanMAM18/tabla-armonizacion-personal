@@ -10,25 +10,7 @@ export default function CarpetaPublica({ id, tipo , nombre}) {
     const [dateOption, setDateOption] = useState('CUALQUIER FECHA');
     const [tempDate, setTempDate] = useState(''); // Estado temporal para la fecha
     const [errorMessage, setErrorMessage] = useState('');
-    const [showDateInput, setShowDateInput] = useState(false);
     const tipoLog = (tipo === "ARCHIVOS" ? "archivo" : "formato"); // Usa una variable diferente
-
-    const handleDragOver = (e) => {
-        e.preventDefault();
-        setIsDragging(true); // Cambia el estado a true cuando se está arrastrando
-    };
-
-    const handleDragLeave = () => {
-        setIsDragging(false); // Cambia el estado a false cuando se sale del área
-    };
-
-    const handleDrop = (e) => {
-        e.preventDefault();
-        const droppedFile = e.dataTransfer.files[0];
-        setFile(droppedFile);
-        setShowDateInput(true); // Mostrar el input de fecha al soltar el archivo
-        setIsDragging(false); // Restablecer el estado de arrastre
-    };
 
     const handleOptionClick = (option) => {
         setDateOption(option);
@@ -146,13 +128,10 @@ export default function CarpetaPublica({ id, tipo , nombre}) {
                     </div>
                     <div className={`relative w-full h-[20vw] mx-auto rounded-lg border-2 p-10 transition-colors 
                         border-emerald-950 opacity-80 transition-colors duration-300 overflow-y-auto relative`}
-                        onDragOver={handleDragOver}
-                        onDragLeave={handleDragLeave}
-                        onDrop={handleDrop}
                     >
                         
                         <table className='w-full text-left rounded'>
-                            <thead className={`text-xs border-b ${showDateInput ? '' : 'text-emerald-950'}`}>
+                            <thead className={`text-xs border-b text-emerald-950`}>
                                 <tr>
                                     <th className='pl-2 w-4/5'>NOMBRE {tipo}</th>
                                     <th className='text-center'>FECHA ESTABLECIDA {tipo}</th>
@@ -175,10 +154,19 @@ export default function CarpetaPublica({ id, tipo , nombre}) {
                                         filteredLogsDate.map((log) => (
                                             <tr className='border-b hover:bg-emerald-950 hover:text-white hover:shadow' key={log.id}>
                                                 <td className='p-2 flex rounded'>
-                                                    <svg className="h-5 w-5" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                                        <path strokeLinecap="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                                    </svg>
-                                                    {log.nombre_log}
+                                                    <a 
+                                                            href={`http://localhost/tabla-armonizacion-personal/public/uploads/${log.nombre_log}`} 
+                                                            target="_blank" 
+                                                            download 
+                                                            rel="noopener noreferrer" // Mejora de seguridad
+                                                            className="flex items-center"
+                                                        >
+                                                        <svg className="h-5 w-5" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                            <path strokeLinecap="round" 
+                                                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                                        </svg>
+                                                        {log.nombre_log}
+                                                    </a>
                                                 </td>
                                                 <td className='text-center'>{formatDate(log.fecha_establecida)}</td>
                                             </tr>

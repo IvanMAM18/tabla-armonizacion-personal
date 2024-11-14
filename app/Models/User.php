@@ -66,21 +66,6 @@ class User extends Authenticatable
         });
     }
 
-    public function chirps(): HasMany
-    {
-        return $this->hasMany(Chirp::class);
-    }
-
-    public function tablaDataArmonizacion(): HasMany
-    {
-        return $this->hasMany(TablaDataArmonizacion::class);
-    }
-
-    public function dataArmonizacion(): HasMany
-    {
-        return $this->hasMany(DataArmonizacion::class);
-    }
-
     public function titulo(): HasMany
     {
         return $this->hasMany(Titulo::class);

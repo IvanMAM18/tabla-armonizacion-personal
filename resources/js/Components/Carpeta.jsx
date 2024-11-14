@@ -9,15 +9,11 @@ export default function Carpeta({ id, tipo }) {
     const [logs, setLogs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showOptions, setShowOptions] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(null);
     const [dateOption, setDateOption] = useState('CUALQUIER FECHA');
-    const [manualDate, setManualDate] = useState('');
     const [tempDate, setTempDate] = useState(''); // Estado temporal para la fecha
     const [errorMessage, setErrorMessage] = useState('');
     const [errorMessageSave, setErrorMessageSave] = useState('');
-    const [nameLog, setNameLog] = useState('');
 
-    
     const [file, setFile] = useState(null);
     const [date, setDate] = useState('');
     const [showDateInput, setShowDateInput] = useState(false);
@@ -49,20 +45,34 @@ export default function Carpeta({ id, tipo }) {
     };
 
     const handleSaveLog = async (event) => {
-        event.preventDefault(); // Asegúrate de que event no sea undefined
+        event.preventDefault();
         if (!date) {
             setErrorMessageSave("Por favor, ingrese una fecha completa.");
             return; // Salir de la función si no hay fecha
         }
     
-        // Lógica para determinar el tipo
+        const formData = new FormData();
+        formData.append('date', date);
         
-
-        console.log('Datos a enviar:', { id_titulo: id, tipo_log: tipoLog, nombre_log: file.name, fecha_establecida: date });
+        // Asegúrate de que el archivo esté definido antes de agregarlo
+        if (file) {
+            formData.append('file', file); // Agrega el archivo al FormData
+        } else {
+            setErrorMessageSave("Por favor, seleccione un archivo.");
+            return; // Salir si no hay archivo
+        }
     
         try {
+            // Primero, sube el archivo
+            await axios.post('http://localhost:5000/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+    
+            // Luego, guarda el log con la información necesaria
             await axios.post('/logs', { id_titulo: id, tipo_log: tipoLog, nombre_log: file.name, fecha_establecida: date });
-            // Aquí puedes agregar la lógica para enviar el archivo
+    
             setFile(null);
             setDate('');
             setShowDateInput(false);
@@ -291,11 +301,19 @@ export default function Carpeta({ id, tipo }) {
                                         filteredLogsDate.map((log) => (
                                             <tr className='border-b hover:bg-emerald-950 hover:text-white hover:shadow' key={log.id}>
                                                 <td className='p-2 flex rounded'> 
-                                                    <svg className="h-5 w-5" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                                                        <path strokeLinecap="round" 
-                                                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                                    </svg>
-                                                    {log.nombre_log}
+                                                    <a 
+                                                        href={`http://localhost/tabla-armonizacion-personal/public/uploads/${log.nombre_log}`} 
+                                                        target="_blank" 
+                                                        download 
+                                                        rel="noopener noreferrer" // Mejora de seguridad
+                                                        className="flex items-center"
+                                                    >
+                                                        <svg className="h-5 w-5" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                            <path strokeLinecap="round" 
+                                                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                                        </svg>
+                                                        {log.nombre_log}
+                                                    </a>
                                                 </td>
                                                 <td className='text-center'>{new Date(log.created_at).toISOString().split('T')[0]}</td>
                                                 <td className='text-center'>{log.fecha_establecida}</td>

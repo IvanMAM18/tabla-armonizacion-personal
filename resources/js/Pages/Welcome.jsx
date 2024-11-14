@@ -1,9 +1,6 @@
 import { Link, Head } from '@inertiajs/react';
 import React, { useState,useRef,useEffect } from 'react';
-import DataArmonizacion from '@/Components/DataArmonizacion';
-import TablaTitulos from '@/Components/TablaTitulos';
 import TablaTitulosPublica from '@/Components/TablaTitulosPublica';
-import TablaData from '@/Components/TablaData';
 import InfoExtraTabla from '@/Components/InfoExtraTabla';
 import __ from '@/Hooks/useTranslation'
 
